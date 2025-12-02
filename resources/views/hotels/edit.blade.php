@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-6 w-1/2">
-    <h1 class="text-3xl font-bold mb-5">Edit Hotel</h1>
+<div class="container mx-auto px-6 py-10 lg:w-3/4">
+    <h1 class="text-2xl font-bold mb-5">Edit Hotel</h1>
 
     <form method="POST" action="{{ route('hotels.update', $hotel->id) }}" enctype="multipart/form-data">
         @csrf
@@ -10,18 +10,18 @@
 
         <img id="preview" class="mt-3 h-32 hidden">
 
-        <div class="shadow-md bg-white p-5 rounded-md">
+        <div class="shadow-md bg-white p-5 rounded-base border-2 border-default-medium mb-6">
             <div class="mb-4">
-                <label class="block font-medium mb-1 text-sm text-heading">Name</label>
-                <input type="text" name="name" value="{{ $hotel->name }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs" required>
+                <label for="name" class="block font-medium mb-1 text-sm text-heading">Name</label>
+                <input type="text" id="name" name="name" value="{{ $hotel->name }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs" required>
                 @error('name')
                     <span class="text-red-500 italic invalid-feedback">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label class="block font-medium mb-1 text-sm text-heading">Price per Night</label>
-                <input type="text" name="price" value="{{ $hotel->price }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs" required>
+                <label for="price" class="block font-medium mb-1 text-sm text-heading">Price per Night</label>
+                <input type="text" id="price" name="price" value="{{ $hotel->price }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs" required>
                 @error('price')
                     <span class="text-red-500 italic invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -29,16 +29,16 @@
                     
             <div class="mb-4">
                 <label for="location" class="block mb-1 text-sm font-medium text-heading">Location</label>
-                <textarea name="location" value="{{ $hotel->location }}" id="location" rows="4" class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body" placeholder="Write your location here..."></textarea>
+                <textarea name="location" id="location" rows="4" class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full p-3.5 shadow-xs placeholder:text-body" placeholder="Write your location here...">{{ old('location', $hotel->location) }}</textarea>
                 @error('location')
                     <span class="text-red-500 italic invalid-feedback">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="flex flex-col items-center w-full">
-                <label id="dropzone" for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 bg-neutral-secondary-medium border border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium">
+                <label id="dropzone" for="dropzone-file" class="flex flex-col items-center justify-center w-full h-74 bg-neutral-secondary-medium border border-dashed border-default-strong rounded-base cursor-pointer hover:bg-neutral-tertiary-medium">
                     <div id="preview-area" class="hidden flex-col items-center justify-center">
-                        <img id="preview-image" src="" class="w-40 h-40 object-cover rounded-lg mb-2" />
+                        <img id="preview-image" src="" class="w-30 h-30 object-cover rounded-lg mb-2" />
                         <p id="preview-name" class="text-sm text-heading font-medium"></p> 
                     </div>
 
@@ -50,11 +50,20 @@
                         <p class="text-xs">jpeg, jpg, png (max 1Mb)</p>
                     </div>
 
+                    {{-- preview --}}
+                    <div id="preview-area" class="flex flex-col items-center justify-center {{ $hotel->image ? '' : 'hidden' }}">
+                        <img 
+                            id="preview-image" 
+                            src="{{ asset('storage/' . $hotel->image) }}"
+                            class="w-30 h-30 object-cover rounded-lg mb-2" 
+                        />
+                    </div>
+
                     <input id="dropzone-file" type="file" name="image" class="hidden" accept="image/*" value="{{ $hotel->image }}">
                 </label>
             </div>
 
-            <button type="submit" class="my-4 text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-6 py-2 focus:outline-none">Edit</button>
+            <button type="submit" class="my-4 text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-6 py-1 focus:outline-none">Edit</button>
         </div>
     </form>
 </div>

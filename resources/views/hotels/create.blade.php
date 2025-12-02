@@ -1,23 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-6 py-10">
-    <h1 class="text-3xl font-bold mb-6">Create Hotel</h1>
-
+<div class="container mx-auto px-6 py-10 lg:w-3/4">
+    <h1 class="text-2xl font-bold mb-6">Create Hotel</h1>
     <form action="{{ route('hotels.store') }}" method="POST" enctype="multipart/form-data" >
         @csrf
-        <div class="shadow-md bg-white p-5 rounded-md">
+        <div class="shadow-md bg-white p-5 rounded-base border-2 border-default-medium">
             <div class="mb-4">
-                <label class="block font-medium mb-1 text-sm text-heading">Name</label>
-                <input type="text" name="name" value="{{ old('name') }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
+                <label for="name" class="block font-medium mb-1 text-sm text-heading">Name</label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
                 @error('name')
                     <span class="text-red-500 italic invalid-feedback">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="mb-4">
-                <label class="block font-medium mb-1 text-sm text-heading">Price per Night</label>
-                <input type="text" name="price" value="{{ old('price') }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
+                <label for="price" class="block font-medium mb-1 text-sm text-heading">Price per Night</label>
+                <input type="text" id="price" name="price" value="{{ old('price') }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
                 @error('price')
                     <span class="text-red-500 italic invalid-feedback">{{ $message }}</span>
                 @enderror
@@ -50,7 +49,7 @@
                 </label>
             </div>
 
-            <button type="submit" class="my-4 text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-6 py-2 focus:outline-none">Save</button>
+            <button type="submit" class="my-4 text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-6 py-1 focus:outline-none">Save</button>
         </div>
     </form>
 </div>

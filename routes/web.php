@@ -20,6 +20,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('aut
 Route::middleware('auth')->group(function () {
     Route::get('/hotels', [HotelController::class, 'index'])->name('hotels.index');
     Route::get('/hotels/create', [HotelController::class, 'create'])->name('hotels.create');
+    Route::get('/hotels/{id}', [HotelController::class, 'show'])->name('hotels.show');
     Route::post('/hotels', [HotelController::class, 'store'])->name('hotels.store');
     Route::get('/hotels/{id}/edit', [HotelController::class, 'edit'])->name('hotels.edit');
     Route::put('/hotels/{id}', [HotelController::class, 'update'])->name('hotels.update');

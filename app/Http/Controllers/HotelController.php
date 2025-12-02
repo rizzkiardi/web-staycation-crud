@@ -30,14 +30,14 @@ class HotelController extends Controller
             'name.max' => 'Maximal 60 Characters.',
 
             'price.required' => 'Price is Required.',
-            'price.numeric' => 'Price must be a number.',
+            'price.numeric' => 'Price must be a Number.',
 
             'location.required' => 'Location is Required.',
             'location.max' => 'Maximal 255 Characters.',
 
             'image.image' => 'File uploaded must be an image.',
             'image.mimes' => 'Image format must be jpg, jpeg, png.',
-            'image.max'   => 'Maximum size is 1Mb',
+            'image.max' => 'Maximum size is 1Mb',
         ]);
 
         if ($request->file('image')) {
@@ -48,6 +48,12 @@ class HotelController extends Controller
         $request->session()->flash('success', 'Hotel has been Created Successfully.');
 
         return redirect()->route('hotels.index');
+    }
+
+    public function show($id)
+    {
+        $hotel = Hotel::findOrFail($id);
+        return view('hotels.show', compact('hotel'));
     }
 
     public function edit($id)
@@ -70,7 +76,7 @@ class HotelController extends Controller
             'name.max' => 'Maximal 60 Characters.',
 
             'price.required' => 'Price is Required.',
-            'price.numeric' => 'Price must be a number.',
+            'price.numeric' => 'Price must be a Number.',
 
             'location.required' => 'Location is Required.',
             'location.max' => 'Maximal 255 Characters.',
@@ -86,7 +92,7 @@ class HotelController extends Controller
 
         $hotel->update($validated);
 
-        return redirect()->route('hotels.index')->with('success', 'Hotel has been edited');
+        return redirect()->route('hotels.index')->with('success', 'Hotel has been Edited');
     }
 
     public function destroy($id)
