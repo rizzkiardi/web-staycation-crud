@@ -27,7 +27,6 @@
             <thead class="bg-neutral-secondary-soft border-b border-default">
                 <tr>
                     <th scope="col" class="px-6 py-3 font-medium text-md text-heading">
-                        
                     </th>
                     <th scope="col" class="pl-3 pr-6 py-3 font-medium text-md text-heading">
                         Name
@@ -62,12 +61,12 @@
                         {{ $hotel->location }}
                     </td>
                     <td class="px-6 py-2">
-                        {{ ucfirst($hotel->category) }}
+                        {{ $hotel->category->name }}
                     </td>
                     <td class="px-6 py-2 md:flex md:gap-3 justify-center">     
                         <a href="{{ route('hotels.show', $hotel->id) }}" class="font-medium text-gray-900 hover:underline">Detail</a>
                         <a href="{{ route('hotels.edit', $hotel->id) }}" class="font-medium text-fg-brand hover:underline">Edit</a>
-                        <form class="inline" action="{{ route('hotels.destroy', $hotel->id) }}" method="POST">
+                        {{-- <form class="inline" action="{{ route('hotels.destroy', $hotel->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
 
@@ -85,11 +84,58 @@
                                         <div class="p-4 md:p-5 text-center">
                                             <svg class="mx-auto mb-4 text-fg-disabled w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                                             <h3 class="mb-6 text-body">Are you sure you want to delete this Hotel?</h3>
+                                            <h1 class="text-center font-bold">{{ $hotel->name }}</h1>
                                             <div class="flex items-center space-x-4 justify-center">
                                                 <button data-modal-hide="popup-modal" type="submit" class="text-white bg-danger box-border border border-transparent hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
                                                 Yes, I'm sure
                                                 </button>
                                                 <button data-modal-hide="popup-modal" type="button" class="text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">No, cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> --}}
+
+                        <form class="inline" action="{{ route('hotels.destroy', $hotel->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button"
+                                data-modal-target="popup-modal-{{ $hotel->id }}"
+                                data-modal-toggle="popup-modal-{{ $hotel->id }}"
+                                class="text-red-600 cursor-pointer hover:underline">
+                                Delete
+                            </button>
+                            <!-- Modal -->
+                            <div id="popup-modal-{{ $hotel->id }}"
+                                tabindex="-1"
+                                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+
+                                <div class="relative p-4 w-full max-w-md max-h-full">
+                                    <div class="relative bg-neutral-primary-soft border border-default rounded-base shadow-sm p-4 md:p-6">
+                                        <button type="button"
+                                            class="absolute top-3 end-2.5 text-body hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-9 h-9 inline-flex justify-center items-center"
+                                            data-modal-hide="popup-modal-{{ $hotel->id }}">
+                                            ✕
+                                        </button>
+                                        <div class="p-4 md:p-5 text-center">
+                                            <svg class="mx-auto mb-4 text-fg-disabled w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 13V8m0 8h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            <h3 class="mb-6 text-body">Are you sure you want to delete this hotel?</h3>
+                                            <p class="text-center text-md font-bold my-7">{{ $hotel->name }}</p>
+                                            <div class="flex items-center space-x-4 justify-center">
+                                                <button type="submit"
+                                                    class="text-white bg-danger border border-transparent hover:bg-danger-strong focus:ring-4 focus:ring-danger-medium rounded-base text-sm px-4 py-2.5">
+                                                    Yes, I'm sure
+                                                </button>
+                                                <button type="button"
+                                                    data-modal-hide="popup-modal-{{ $hotel->id }}"
+                                                    class="text-body bg-neutral-secondary-medium hover:bg-neutral-tertiary-medium hover:text-heading border border-default-medium rounded-base text-sm px-4 py-2.5">
+                                                    No, cancel
+                                                </button>
                                             </div>
                                         </div>
                                     </div>

@@ -7,11 +7,17 @@
         @csrf
         <div class="shadow-md bg-white p-5 rounded-base border-2 border-default-medium">
             <div class="mb-4">
-                <label class="block mb-2">Category</label>
+                {{-- <label class="block mb-2">Category</label>
                 <select name="category" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
                     <option value="hotel">Hotel</option>
                     <option value="resort">Resort</option>
                     <option value="villa">Villa</option>
+                </select> --}}
+                <label class="block mb-2">Category</label>
+                <select name="category_id" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
                 </select>
             </div>
             

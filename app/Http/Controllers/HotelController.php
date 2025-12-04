@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hotel;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class HotelController extends Controller
@@ -15,7 +16,8 @@ class HotelController extends Controller
 
     public function create()
     {
-        return view('hotels.create');
+        $categories = Category::all();
+        return view('hotels.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -25,7 +27,7 @@ class HotelController extends Controller
             'price' => 'required|numeric',
             'location' => 'required',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-            'category' => 'required|in:hotel,resort,villa',
+            'category_id' => 'required|exists:categories,id',
         ], [
             'name.required' => 'Name is Required.',
             'name.max' => 'Maximal 60 Characters.',
@@ -60,7 +62,8 @@ class HotelController extends Controller
     public function edit($id)
     {
         $hotel = Hotel::findOrFail($id);
-        return view('hotels.edit', compact('hotel'));
+        $categories = Category::all();
+        return view('hotels.edit', compact('hotel', 'categories'));
     }
 
     public function update(Request $request, $id)
@@ -72,7 +75,7 @@ class HotelController extends Controller
             'price' => 'required|numeric',
             'location' => 'required|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-            'category' => 'required|in:hotel,resort,villa',
+            'category_id' => 'required|exists:categories,id'
         ], [
             'name.required' => 'Name is Required.',
             'name.max' => 'Maximal 60 Characters.',

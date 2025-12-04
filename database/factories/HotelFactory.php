@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,13 +17,24 @@ class HotelFactory extends Factory
      */
     public function definition(): array
     {
-        $category = $this->faker->randomElement(['Hotel', 'Resort', 'Villa']);
+        $categoryName = $this->faker->randomElement(['Hotel', 'Resort', 'Villa']);
+        $category = Category::where('name', $categoryName)->first();
         return [
-            'name' => $this->faker->company . ' ' . ucfirst($category),
+            'name' => $this->faker->company . ' ' . $categoryName,
             'image' => $this->faker->imageUrl(640, 480, 'hotel', true),
             'location' => $this->faker->city,
             'price' => $this->faker->numberBetween(300000, 3000000),
-            'category' => $this->faker->randomElement(['hotel', 'resort', 'villa']),
+            'category_id' => $category?->id,
         ];
+
+        // $categoryName = $this->faker->randomElement(['Hotel', 'Resort', 'Villa']);
+        // $category = Category::whereRaw('LOWER(name) = ?', [strtolower($categoryName)])->first();
+        // return [
+        //     'name'        => $this->faker->company . ' ' . $categoryName,
+        //     'image'       => $this->faker->imageUrl(640, 480, 'hotel', true),
+        //     'location'    => $this->faker->city,
+        //     'price'       => $this->faker->numberBetween(300000, 3000000),
+        //     'category_id' => $category?->id,
+        // ];
     }
 }

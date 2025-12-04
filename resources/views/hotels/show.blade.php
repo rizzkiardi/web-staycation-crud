@@ -9,9 +9,7 @@
             <div>
                 <div class="mb-4">
                     @if($hotel->image)
-                        <img src="{{ asset('storage/'.$hotel->image) }}" 
-                            alt="Hotel Image" 
-                            class="w-64 rounded-lg shadow mb-6">
+                        <img src="{{ asset('storage/'.$hotel->image) }}" alt="Hotel Image" class="w-64 rounded-lg shadow mb-6">
                     @else
                         <p class="text-gray-500">Picture Not Found</p>
                     @endif
@@ -19,7 +17,7 @@
             </div>
             <div>
                 <div class="mb-4">
-                    <label class="font-semibold">Hotel</label>
+                    <label class="font-semibold">{{ $hotel->category->name }}</label>
                     <p>{{ $hotel->name }}</p>
                 </div>
         

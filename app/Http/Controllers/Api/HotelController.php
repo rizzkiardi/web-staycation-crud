@@ -3,41 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Hotel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class HotelController extends Controller
 {
-    // GET
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $hotels = Hotel::all();
+        $hotels = Hotel::with('category')->latest()->get();
 
         return response()->json([
             'success' => true,
             'message' => 'List of hotels',
             'data' => $hotels
-        ]);
+        ], 200);
     }
 
-    // POST
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'location' => 'required|string',
+            'location' => 'required|string|max:255',
             'price' => 'required|numeric',
+            'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation errors',
-                'errors' => $validator->errors()
-            ], 422);
-        }
 
         $imagePath = null;
         if ($request->hasFile('image')) {
@@ -45,42 +42,45 @@ class HotelController extends Controller
         }
 
         $hotel = Hotel::create([
-            'name' => $request->name,
-            'location' => $request->location,
-            'price' => $request->price,
+            'name' => $validated['name'],
+            'location' => $validated['location'],
+            'price' => $validated['price'],
+            'category_id' => $validated['category_id'],
             'image' => $imagePath,
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Hotel has been Created Successfully.',
+            'message' => 'Hotel created successfully',
             'data' => $hotel
         ], 201);
     }
 
-    // GET berdasarkan ID
+    /**
+     * Display the specified resource.
+     */
     public function show($id)
     {
-        $hotel = Hotel::find($id);
+        $hotel = Hotel::with('category')->find($id);
 
         if (!$hotel) {
             return response()->json([
                 'success' => false,
                 'message' => 'Hotel Not Found',
-                'errors' => [
-                    'Error' => 'Record Not Found'
-                ]
+                'errors' => ['id' => 'Record Not Found']
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Hotel Detail',
+            'message' => 'Hotel detail',
             'data' => $hotel
-        ]);
+        ], 200);
     }
 
-    // PUT
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, $id)
     {
         $hotel = Hotel::find($id);
@@ -89,17 +89,16 @@ class HotelController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Hotel Not Found',
-                'errors' => [
-                    'Error' => 'Record Not Found'
-                ]
+                'errors' => ['id' => 'Record Not Found']
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'location' => 'required|string',
+            'location' => 'required|string|max:255',
             'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -119,16 +118,19 @@ class HotelController extends Controller
             'name' => $request->name,
             'location' => $request->location,
             'price' => $request->price,
+            'category_id' => $request->category_id,
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Hotel has been Updated.',
+            'message' => 'Hotel updated successfully',
             'data' => $hotel
-        ]);
+        ], 200);
     }
 
-    // DELETE
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy($id)
     {
         $hotel = Hotel::find($id);
@@ -136,10 +138,8 @@ class HotelController extends Controller
         if (!$hotel) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hotel not found',
-                'errors' => [
-                    'Error' => 'Record Not Found'
-                ]
+                'message' => 'Hotel Not Found',
+                'errors' => ['id' => 'Record Not Found']
             ], 404);
         }
 
@@ -147,8 +147,8 @@ class HotelController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Hotel was successfully Deleted.',
+            'message' => 'Hotel deleted successfully',
             'data' => (object)[]
-        ]);
+        ], 200);
     }
 }

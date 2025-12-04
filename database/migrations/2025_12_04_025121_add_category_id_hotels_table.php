@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('hotels', function (Blueprint $table) {
-            $table->enum('category', ['hotel', 'resort', 'villa'])->default('hotel')->after('price');
+            $table->foreignId('category_id')->after('price')->constrained('categories')->onDelete('cascade');
         });
     }
 
@@ -21,7 +21,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('hotels', function (Blueprint $table) {
-            $table->dropColumn('category');
+            $table->dropForeign(['category_id']);
+            $table->dropColumn('category_id');
         });
     }
 };
