@@ -27,6 +27,9 @@
             <thead class="bg-neutral-secondary-soft border-b border-default">
                 <tr>
                     <th scope="col" class="px-6 py-3 font-medium text-md text-heading">
+                        
+                    </th>
+                    <th scope="col" class="pl-3 pr-6 py-3 font-medium text-md text-heading">
                         Name
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium text-md text-heading">
@@ -34,6 +37,9 @@
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium text-md text-heading">
                         Location
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium text-md text-heading">
+                        Category
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium text-md text-heading text-center">
                         Action
@@ -43,16 +49,22 @@
             <tbody>
                 @forelse($hotels as $hotel)
                 <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
-                    <td class="px-6 py-4">
+                    <td class="px-3 py-2 text-center">
+                        {{ $hotels->firstItem() + $loop->index }}
+                    </td>
+                    <td class="pl-3 pr-6 py-2">
                         {{ $hotel->name }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-2">
                         Rp {{ number_format($hotel->price) }}
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-2">
                         {{ $hotel->location }}
                     </td>
-                    <td class="px-6 py-4 md:flex md:gap-3 justify-center">     
+                    <td class="px-6 py-2">
+                        {{ ucfirst($hotel->category) }}
+                    </td>
+                    <td class="px-6 py-2 md:flex md:gap-3 justify-center">     
                         <a href="{{ route('hotels.show', $hotel->id) }}" class="font-medium text-gray-900 hover:underline">Detail</a>
                         <a href="{{ route('hotels.edit', $hotel->id) }}" class="font-medium text-fg-brand hover:underline">Edit</a>
                         <form class="inline" action="{{ route('hotels.destroy', $hotel->id) }}" method="POST">
@@ -93,6 +105,9 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="px-3 py-6 flex justify-start ">
+            {{ $hotels->links() }}
+        </div>
     </div>
 
 </div>

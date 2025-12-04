@@ -9,5 +9,5 @@ class Hotel extends Model
 {
     use HasFactory;
     protected $table = 'hotels';
-    protected $guarded = [];
+    protected $guarded = ['id'];
 }

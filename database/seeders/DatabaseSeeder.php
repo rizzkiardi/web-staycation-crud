@@ -24,5 +24,9 @@ class DatabaseSeeder extends Seeder
             'email' => env('USER_EMAIL', 'admin@gmail.com'),
             'password' => Hash::make(env('USER_PASSWORD', 'admin123'), )
         ]);
+
+        $this->call([
+            HotelSeeder::class,
+        ]);
     }
 }

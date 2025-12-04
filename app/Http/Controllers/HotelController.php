@@ -9,7 +9,7 @@ class HotelController extends Controller
 {
     public function index()
     {
-        $hotels = Hotel::latest()->get();
+        $hotels = Hotel::latest()->paginate(10);
         return view('hotels.index', compact('hotels'));
     }
 
@@ -24,7 +24,8 @@ class HotelController extends Controller
             'name' => 'required|max:60',
             'price' => 'required|numeric',
             'location' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+            'category' => 'required|in:hotel,resort,villa',
         ], [
             'name.required' => 'Name is Required.',
             'name.max' => 'Maximal 60 Characters.',
@@ -70,7 +71,8 @@ class HotelController extends Controller
             'name' => 'required|max:60',
             'price' => 'required|numeric',
             'location' => 'required|max:255',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
+            'category' => 'required|in:hotel,resort,villa',
         ], [
             'name.required' => 'Name is Required.',
             'name.max' => 'Maximal 60 Characters.',

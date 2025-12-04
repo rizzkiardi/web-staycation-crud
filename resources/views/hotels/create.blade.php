@@ -7,6 +7,15 @@
         @csrf
         <div class="shadow-md bg-white p-5 rounded-base border-2 border-default-medium">
             <div class="mb-4">
+                <label class="block mb-2">Category</label>
+                <select name="category" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
+                    <option value="hotel">Hotel</option>
+                    <option value="resort">Resort</option>
+                    <option value="villa">Villa</option>
+                </select>
+            </div>
+            
+            <div class="mb-4">
                 <label for="name" class="block font-medium mb-1 text-sm text-heading">Name</label>
                 <input type="text" id="name" name="name" value="{{ old('name') }}" class="w-3/4 px-4 py-2 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block p-3.5 shadow-xs">
                 @error('name')
